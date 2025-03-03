@@ -17,7 +17,7 @@ if not ISSUE_BODY.strip():
     exit(0)
 
 # ✅ Corrected model name for v1 API
-model = genai.GenerativeModel("gemini-pro")  # ✅ Updated
+model = genai.GenerativeModel("gemini-1.5-pro")  # ✅ Updated
 
 # Analyze AI probability
 response = model.generate_content(
