@@ -46,8 +46,11 @@ except ValueError:
 
 print(f"AI Detection Probability: {ai_probability * 100:.2f}%")
 
-# If AI probability is ≥ 60%, close the issue
-if ai_probability >= 0.6:
+# Prepare dynamic comment message with AI probability
+comment_message = f"🚨 This issue appears to be AI-generated with a probability of {ai_probability * 100:.2f}%. So, I'm closing this!"
+
+# If AI probability is ≥ 70%, close the issue
+if ai_probability >= 0.7:
     if not GIT_TOKEN:
         print("❌ ERROR: GitHub token is missing or incorrect!")
         exit(1)
@@ -56,7 +59,8 @@ if ai_probability >= 0.6:
     repo = github_client.get_repo(REPO_NAME)
     issue = repo.get_issue(int(ISSUE_NUMBER))
 
-    issue.create_comment("🚨 This issue appears to be AI-generated and does not meet our guidelines. Closing automatically.")
+    issue.create_comment(comment_message)
     issue.edit(state="closed")
 
     print("✅ Issue closed successfully!")
+

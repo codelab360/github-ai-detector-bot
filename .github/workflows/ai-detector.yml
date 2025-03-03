@@ -8,8 +8,8 @@ jobs:
   detect_ai_content:
     runs-on: ubuntu-latest
     permissions:
-      issues: write  # ✅ Ensure the workflow can comment & close issues
-      contents: read # ✅ Allow reading repo contents
+      issues: write  
+      contents: read
 
     steps:
       - name: Debug Secrets (Check if they exist)
