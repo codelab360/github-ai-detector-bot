@@ -10,21 +10,19 @@ REPO_NAME = os.getenv("GITHUB_REPOSITORY")
 ISSUE_NUMBER = os.getenv("ISSUE_NUMBER")
 ISSUE_BODY = os.getenv("ISSUE_BODY", "")
 
-# Debugging Environment Variables
-print(f"🔍 Debugging Variables:")
+print(f"🔍 Steps:")
 print(f"  - GEMINI_API_KEY: {'✅ Set' if GEMINI_API_KEY else '❌ Missing'}")
 print(f"  - GIT_TOKEN: {'✅ Set' if GIT_TOKEN else '❌ Missing'}")
 print(f"  - REPO_NAME: {REPO_NAME}")
 print(f"  - ISSUE_NUMBER: {ISSUE_NUMBER}")
-print(f"  - ISSUE_BODY: {ISSUE_BODY[:50]}...")  # Show only the first 50 characters
+print(f"  - ISSUE_BODY: {ISSUE_BODY[:50]}...")  
 
-# Authenticate Google Gemini API
 if not GEMINI_API_KEY:
     print("❌ ERROR: Missing GEMINI_API_KEY!")
     exit(1)
 
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-pro-latest")  # ✅ Fixed Model Name
+model = genai.GenerativeModel("gemini-1.5-pro-latest") 
 
 # Skip empty issues
 if not ISSUE_BODY.strip():
