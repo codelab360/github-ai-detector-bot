@@ -4,7 +4,7 @@ from github import Github
 
 # Retrieve API keys and issue details from GitHub Actions environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GIT_TOKEN = os.getenv("GIT_TOKEN")
 REPO_NAME = os.getenv("GITHUB_REPOSITORY")
 ISSUE_NUMBER = os.getenv("ISSUE_NUMBER")
 ISSUE_BODY = os.getenv("ISSUE_BODY", "")
@@ -16,8 +16,10 @@ genai.configure(api_key=GEMINI_API_KEY)
 if not ISSUE_BODY.strip():
     exit(0)
 
-# Analyze AI probability with Gemini
-model = genai.GenerativeModel("gemini-pro")
+# ✅ Corrected model name for v1 API
+model = genai.GenerativeModel("gemini-1.0-pro")  # ✅ Updated
+
+# Analyze AI probability
 response = model.generate_content(
     f"Analyze the following text and estimate the probability (0-100%) that it is AI-generated. "
     f"Return only the percentage (e.g., 65) without extra text.\n\n{ISSUE_BODY}"
@@ -31,7 +33,7 @@ except ValueError:
 
 # If AI probability is ≥ 60%, close the issue
 if ai_probability >= 0.6:
-    github_client = Github(GITHUB_TOKEN)
+    github_client = Github(GIT_TOKEN)
     repo = github_client.get_repo(REPO_NAME)
     issue = repo.get_issue(int(ISSUE_NUMBER))
 
