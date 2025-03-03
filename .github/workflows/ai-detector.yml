@@ -7,7 +7,16 @@ on:
 jobs:
   detect_ai_content:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write  # ✅ Ensure the workflow can comment & close issues
+      contents: read # ✅ Allow reading repo contents
+
     steps:
+      - name: Debug Secrets (Check if they exist)
+        run: |
+          if [ -z "${{ secrets.GEMINI_API_KEY }}" ]; then echo "❌ GEMINI_API_KEY is missing"; else echo "✅ GEMINI_API_KEY is set"; fi
+          if [ -z "${{ secrets.GIT_TOKEN }}" ]; then echo "❌ GIT_TOKEN is missing"; else echo "✅ GIT_TOKEN is set"; fi
+
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -22,7 +31,7 @@ jobs:
       - name: Run AI Detection Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
